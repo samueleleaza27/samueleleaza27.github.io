@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Métodos de Pago</title>
+    <!-- Importar la fuente "Poppins" desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Importar Font Awesome para los íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Estilos CSS -->
+    <style>
+        /* Estilos globales */
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        h1, h2, p {
+            margin: 0;
+            padding: 0;
+        }
+        /* Contenedor principal */
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        /* Encabezado principal */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .header h1 {
+            font-size: 42px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 18px;
+            color: #7f8c8d;
+        }
+        /* Estilos para cada método de pago */
+        .metodo-pago {
+            background-color: #ffffff;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            /* Sombras más pronunciadas */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            /* Transiciones para animaciones */
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        /* Animación al pasar el cursor por encima */
+        .metodo-pago:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        .metodo-pago h2 {
+            font-size: 32px;
+            color: #34495e;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .metodo-pago h2 i {
+            margin-right: 10px;
+            color: #2980b9;
+        }
+        .metodo-pago .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .metodo-pago input {
+            flex: 1;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .metodo-pago input:focus {
+            border-color: #2980b9;
+        }
+        .metodo-pago button {
+            padding: 12px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #2980b9;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            /* Transición para el efecto hover y active */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .metodo-pago button:hover {
+            background-color: #1f6391;
+        }
+        .metodo-pago button:active {
+            transform: scale(0.95);
+        }
+        .metodo-pago .nombre-cuenta {
+            font-size: 18px;
+            color: #7f8c8d;
+            margin-top: 10px;
+        }
+        /* Notificación de copiado */
+        .mensaje-copiado {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #2ecc71;
+            color: #fff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            font-size: 16px;
+            opacity: 0;
+            /* Animaciones */
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .mensaje-copiado.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Efecto de onda al hacer clic en el botón */
+        .metodo-pago button::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            top: 50%;
+            left: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        .metodo-pago button.clic::after {
+            animation: wave 0.6s ease-out;
+        }
+        @keyframes wave {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 0.5;
+            }
+            100% {
+                width: 200%;
+                height: 200%;
+                opacity: 0;
+            }
+        }
+        /* Estilos responsivos */
+        @media (max-width: 600px) {
+            .metodo-pago h2 {
+                font-size: 28px;
+            }
+            .header h1 {
+                font-size: 36px;
+            }
+            .metodo-pago .input-group {
+                flex-direction: column;
+            }
+            .metodo-pago input, .metodo-pago button {
+                width: 100%;
+                border-radius: 4px;
+                margin: 5px 0;
+            }
+            .mensaje-copiado {
+                top: auto;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Encabezado -->
+        <div class="header">
+            <h1>Métodos de Pago</h1>
+            <p>Por favor, copia los datos del método de pago que prefieras y envía una captura del pago para confirmar tu pedido.</p>
+        </div>
+
+        <!-- PayPal -->
+        <div class="metodo-pago">
+            <h2><i class="fab fa-paypal"></i> PayPal</h2>
+            <div class="input-group">
+                <input type="text" value="placenciasamuel58@gmail.com" id="paypal" readonly>
+                <button onclick="copiarTexto('paypal', this)">Copiar</button>
+            </div>
+            <p class="nombre-cuenta">Usuario: @kimiy8</p>
+        </div>
+
+        <!-- BCP -->
+        <div class="metodo-pago">
+            <h2><i class="fas fa-university"></i> BCP</h2>
+            <div class="input-group">
+                <input type="text" value="53599751749060" id="bcp" readonly>
+                <button onclick="copiarTexto('bcp', this)">Copiar</button>
+            </div>
+            <p class="nombre-cuenta">Titular: Emiliano Heber Plasencia Mostacero</p>
+        </div>
+
+        <!-- Yape -->
+        <div class="metodo-pago">
+            <h2><i class="fas fa-mobile-alt"></i> Yape</h2>
+            <div class="input-group">
+                <input type="text" value="996688488" id="yape" readonly>
+                <button onclick="copiarTexto('yape', this)">Copiar</button>
+            </div>
+            <p class="nombre-cuenta">Titular: Emiliano Heber Plasencia Mostacero</p>
+        </div>
+    </div>
+
+    <!-- Notificación de copiado -->
+    <div id="mensaje-copiado" class="mensaje-copiado">¡Texto copiado al portapapeles!</div>
+
+    <script>
+        function copiarTexto(id, boton) {
+            var campo = document.getElementById(id);
+            campo.select();
+            campo.setSelectionRange(0, 99999); // Para dispositivos móviles
+            document.execCommand('copy');
+
+            // Mostrar mensaje de copiado con animación
+            var mensaje = document.getElementById('mensaje-copiado');
+            mensaje.classList.add('show');
+
+            // Añadir efecto de onda al botón
+            boton.classList.add('clic');
+
+            // Restaurar el estado del botón después de un tiempo
+            setTimeout(function() {
+                boton.classList.remove('clic');
+            }, 600);
+
+            // Ocultar mensaje después de 2 segundos
+            setTimeout(function() {
+                mensaje.classList.remove('show');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
